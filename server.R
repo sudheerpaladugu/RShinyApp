@@ -117,6 +117,4 @@ shinyServer(function(input, output) {
                  sliderData()
          })
 
-
-
 })

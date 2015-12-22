@@ -1,5 +1,8 @@
 library(shiny)
 
+#String to display
+descrTxt <- HTML("</br>I have choosen 'Motor Trends Analysis' regression models project data to design a Shiny Application as part of 'Developing Data Products using - R' Course Project. </br></br> Left side panel is 'Input selection Panel' to control the information displayed on tabs. It has four sections to change/control the input to update the information displayed on respective tabs. Data Table tab itself has some filters to sort and seach for the data available in mrcars dataset.</br></br></br>Right side panel is having five tabs (except description) to display Cars dataset Analysis, Summary, Data Frame, Data table, and Plots information. User can select any tab to check the information available.</br></br><p align='jestify' style='background-color:#c6c6f7'><b>Tabs - Description</b></br></br> <b>Analysis Tab</b> Enter some text in 'Enter New Header' and check the Analysis tab for header change.</br></br><b>Data Summary Tab</b><br>Select Transmission Type Automatic or Manual and check the summary</br></br><b>Data Table Tab</b></br> Data table has sort filder, limit number of rows to display, pagination, and search features (dataTableOutput default features).</br></br><b>Data Frame</b></br> This tab controlled by 'Number of observations' and 'Choose Filter' to limit/filter the data display.</br></br><b>Plots Tab</b></br> This tab has hide/display selection. Selected plot will be displayed on this tab.</p>")
+
 summaryTxt <- HTML('</br>Motor Tren Magazine performing analysis on Automatic and Manual transmission which is economically best or gives more miles per gallon(MPG). They are particularly interested in the following two questions:</br>
                            "Is an automatic or manual transmission better for MPG"</br>
                    "Quantify the MPG difference between automatic and manual transmissions"</br>')
@@ -24,18 +27,18 @@ hyptxt2 <- HTML('P-value obtained is highly significant. Hence we reject this nu
 
 contxt <- HTML("Observations from summary(fit2)</br>Motor Trend Analysis concluded that 'Manual' transmission gives 1.80 more miles per gallon (MPG) than 'Automatic' transmission (adjusted by hp, wt, and am).</br>")
 
-# Define UI for random distribution application
+#UI application structure
 shinyUI(pageWithSidebar(
-        headerPanel("Motor Trends"),
+        headerPanel("Motor Trend Analysis: Manual Vs Automatic Transimission for MPG"),
         sidebarPanel(
-                tags$h2("Cars Dataset"),tags$br(),
+                tags$h3("mtcars - Dataset selection crieteria"),tags$br(),
                 tags$h4("Update Analysis Tab Heading"),
                 textInput("header", "Enter New Header", "Motor Trend Analysis: Manual Vs Automatic Transimission for MPG"),
                 tags$br(),
                 tags$h4("Select below to change Data Summary Tab data:"),
                 radioButtons("dataSummary", "Transmission Type:",
                              list("Automatic" = "auto", "Manual" = "manual")), tags$br(),
-                tags$h4("Select below to change Data Frame Tab data:"),tags$br(),
+                tags$h4("Select below to change Data Frame Tab data:"),
                 sliderInput("ndata","Number of observations:",value = 15,min = 1,max = 30),
                 selectInput("datafilter", "Choose a filter:",
                             choices = c("All","Automatic","Manual")),tags$br(),
@@ -47,6 +50,8 @@ shinyUI(pageWithSidebar(
         mainPanel(
 
                 tabsetPanel(
+                tabPanel("Description",tags$h2("Project Description"), descrTxt
+                        ),
                 tabPanel(
                         "Analysis",h2(verbatimTextOutput("header")),
                         tags$h2("Summary"), summaryTxt,tags$h2("Analysis"),
@@ -73,7 +78,6 @@ shinyUI(pageWithSidebar(
                         plotOutput("plot1"),
                         tags$h2("Scerplot Matrix"),
                         plotOutput("sctr"),
-                        tags$h5('Based on sterplot results, mpg has high corelation with few variables'),
                         tags$h2("Residuals and Diagnostics"),
                         plotOutput("plot2")
                         )
