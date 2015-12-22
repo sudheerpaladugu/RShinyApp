@@ -39,7 +39,7 @@ shinyUI(pageWithSidebar(
                 radioButtons("dataSummary", "Transmission Type:",
                              list("Automatic" = "auto", "Manual" = "manual")), tags$br(),
                 tags$h4("Select below to change Data Frame Tab data:"),
-                sliderInput("ndata","Number of observations:",value = 15,min = 1,max = 30),
+                sliderInput("ndata","Number of observations:",value = 15,min = 1,max = 32),
                 selectInput("datafilter", "Choose a filter:",
                             choices = c("All","Automatic","Manual")),tags$br(),
                 tags$h4("Select/Unselect to Display/hide plots in Plots Tab:"),

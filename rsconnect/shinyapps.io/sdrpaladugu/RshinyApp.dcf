@@ -1,0 +1,9 @@
+name: RshinyApp
+account: sdrpaladugu
+server: shinyapps.io
+appId: 74765
+bundleId: 336623
+url: https://sdrpaladugu.shinyapps.io/RshinyApp
+when: 1450767254.11842
+asMultiple: FALSE
+asStatic: FALSE
