@@ -12,22 +12,27 @@ shinyServer(function(input, output) {
                 cat(input$header)
         })
 
+
         output$plot1 <- renderPlot({
-              boxplot(mpg ~ am, data = mtcars, xlab = "Transmission Type", ylab = "MPG (miles per gallon)",
+             if(input$box){ boxplot(mpg ~ am, data = mtcars, xlab = "Transmission Type", ylab = "MPG (miles per gallon)",
               main="MPG for Transmission Type")
+             }
         })
 
         output$plot2 <- renderPlot({
-                fit1 <- lm(mpg ~. , data=mtcars)
-                fit2 <- step(fit1, direction = "both", trace=0)
-                par(mfrow = c(2,2))
-                plot(fit2)
+                if(input$resid){
+                        fit1 <- lm(mpg ~. , data=mtcars)
+                        fit2 <- step(fit1, direction = "both", trace=0)
+                        par(mfrow = c(2,2))
+                        plot(fit2)
+                }
         })
 
         output$sctr <- renderPlot({
         suppressWarnings(library(car))
-        scatterplot.matrix(~mpg + cyl + disp + hp + drat + wt + qsec + vs + am + gear +
+                if(input$scatter){scatterplot.matrix(~mpg + cyl + disp + hp + drat + wt + qsec + vs + am + gear +
                                    carb, data = mtcars, main = "Scatterplot Matrix")
+                }
         })
 
         #slider data for data frame tab

@@ -30,7 +30,7 @@ shinyUI(pageWithSidebar(
         sidebarPanel(
                 tags$h2("Cars Dataset"),tags$br(),
                 tags$h4("Update Analysis Tab Heading"),
-                textInput("header", "Update Header", "Motor Trend Analysis: Manual Vs Automatic Transimission for MPG"),
+                textInput("header", "Enter New Header", "Motor Trend Analysis: Manual Vs Automatic Transimission for MPG"),
                 tags$br(),
                 tags$h4("Select below to change Data Summary Tab data:"),
                 radioButtons("dataSummary", "Transmission Type:",
@@ -38,13 +38,17 @@ shinyUI(pageWithSidebar(
                 tags$h4("Select below to change Data Frame Tab data:"),tags$br(),
                 sliderInput("ndata","Number of observations:",value = 15,min = 1,max = 30),
                 selectInput("datafilter", "Choose a filter:",
-                            choices = c("All","Automatic","Manual"))
+                            choices = c("All","Automatic","Manual")),tags$br(),
+                tags$h4("Select/Unselect to Display/hide plots in Plots Tab:"),
+                checkboxInput("box", "Boxplot", TRUE),
+                checkboxInput("scatter", "Scatterplot Matrix", TRUE),
+                checkboxInput("resid", "Residuals and Diagnostics", TRUE)
         ),
         mainPanel(
 
                 tabsetPanel(
                 tabPanel(
-                        "Analysis",tags$h2(verbatimTextOutput("header")),
+                        "Analysis",h2(verbatimTextOutput("header")),
                         tags$h2("Summary"), summaryTxt,tags$h2("Analysis"),
                         tags$h5("dim(mtcars)"),verbatimTextOutput("dscrtext"),meanInfo,tags$br(),
                         verbatimTextOutput("mnresults"),tags$br(),meanInfo2,tags$br(),ttest,tags$br(),
