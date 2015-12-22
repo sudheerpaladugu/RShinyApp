@@ -1,11 +1,16 @@
 
 library(shiny)
+library(datasets)
 data(mtcars)
 
 mtcars$am <- factor(mtcars$am, labels = c("Automatic", "Manual"))
 
 # Define server logic for random distribution application
 shinyServer(function(input, output) {
+
+        output$header <- renderPrint({
+                cat(input$header)
+        })
 
         output$plot1 <- renderPlot({
               boxplot(mpg ~ am, data = mtcars, xlab = "Transmission Type", ylab = "MPG (miles per gallon)",
@@ -25,9 +30,18 @@ shinyServer(function(input, output) {
                                    carb, data = mtcars, main = "Scatterplot Matrix")
         })
 
-        # # Generate a summary of the data
+        #slider data for data frame tab
+        radioData <- reactive({
+                if(input$dataSummary == 'auto'){
+                        summary(mtcars[mtcars$am == 'Automatic',])
+                }else {
+                        summary(mtcars[mtcars$am == 'Manual',])
+                }
+        })
+
+        #Generate a summary of the data
         output$autosmry <- renderPrint({
-                summary(mtcars[mtcars$am == 'Automatic',])
+                radioData()
         })
         output$mansmry <- renderPrint({
                 summary(mtcars[mtcars$am == 'Manual',])
@@ -76,11 +90,28 @@ shinyServer(function(input, output) {
                 anova(fit2, final_model)
         })
 
-        # # Generate an HTML table view of the data
-        # output$table <- renderTable({
-        #         data.frame(x=mtcars)
-        # })
+        # Generate an HTML table view of the data
+        output$dframe <- renderTable({
+                data.frame(x=mtcars)
+        })
+
         output$table <- renderDataTable({
                 mtcars
         }, options = list(aLengthMenu = c(5, 20, 30), iDisplayLength = 5))
+
+        #slider data for data frame tab
+        sliderData <- reactive({
+                if(input$datafilter == 'All'){
+                        head(data.frame(x=mtcars),input$ndata)
+                } else {
+                        head(data.frame(x=mtcars[mtcars$am == input$datafilter,]),input$ndata)
+                }
+        })
+        #printing slider data on data frame tab
+        output$dframe <- renderTable({
+                 sliderData()
+         })
+
+
+
 })

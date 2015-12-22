@@ -28,16 +28,23 @@ contxt <- HTML("Observations from summary(fit2)</br>Motor Trend Analysis conclud
 shinyUI(pageWithSidebar(
         headerPanel("Motor Trends"),
         sidebarPanel(
-                h2("Cars Dataset"),br(),
-                radioButtons("summaryPlot", "Display Type:",
-                             list("Summary" = "summary", "Plot" = "plot")), br(),
-                sliderInput("n","Number of observations:",value = 15,min = 1,max = 32)
+                tags$h2("Cars Dataset"),tags$br(),
+                tags$h4("Update Analysis Tab Heading"),
+                textInput("header", "Update Header", "Motor Trend Analysis: Manual Vs Automatic Transimission for MPG"),
+                tags$br(),
+                tags$h4("Select below to change Data Summary Tab data:"),
+                radioButtons("dataSummary", "Transmission Type:",
+                             list("Automatic" = "auto", "Manual" = "manual")), tags$br(),
+                tags$h4("Select below to change Data Frame Tab data:"),tags$br(),
+                sliderInput("ndata","Number of observations:",value = 15,min = 1,max = 30),
+                selectInput("datafilter", "Choose a filter:",
+                            choices = c("All","Automatic","Manual"))
         ),
         mainPanel(
 
                 tabsetPanel(
                 tabPanel(
-                        "Description",tags$h2('Motor Trend Analysis: Manual Vs Automatic Transimission for MPG'),
+                        "Analysis",tags$h2(verbatimTextOutput("header")),
                         tags$h2("Summary"), summaryTxt,tags$h2("Analysis"),
                         tags$h5("dim(mtcars)"),verbatimTextOutput("dscrtext"),meanInfo,tags$br(),
                         verbatimTextOutput("mnresults"),tags$br(),meanInfo2,tags$br(),ttest,tags$br(),
@@ -52,6 +59,9 @@ shinyUI(pageWithSidebar(
                         ),
                 tabPanel(
                         "Data Table", dataTableOutput("table")
+                        ),
+                tabPanel(
+                         "Data Frame", tableOutput("dframe")
                         ),
                 tabPanel(
                         "Plots",
